@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ QuickRevise | Striver's A2Z</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Prism.js for Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for a premium feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
+        /* Prism override for rounded corners */
+        pre[class*="language-"] {
+            border-radius: 0.75rem;
+            margin: 1.5em 0;
+            padding: 1.25rem;
+            background: #1e293b;
+            border: 1px solid #334155;
+        }
+        
+        /* Toast animation */
+        @keyframes slideInUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .toast-animate {
+            animation: slideInUp 0.3s ease-out forwards;
+        }
+        
+        .nav-link.active {
+            color: #60a5fa;
+            border-left-color: #60a5fa;
+            background-color: rgba(96, 165, 250, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-300 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Mobile Header -->
+    <header class="lg:hidden sticky top-0 z-40 bg-slate-950/80 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex justify-between items-center">
+        <div class="text-xl font-bold text-white flex items-center gap-2">
+            <svg class="w-6 h-6 text-brand-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            C++ Revise
+        </div>
+        <button id="mobile-menu-btn" class="text-slate-300 hover:text-white p-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+    </header>
+
+    <div class="flex max-w-7xl mx-auto">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-slate-900 border-r border-slate-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out lg:static lg:block h-screen overflow-y-auto">
+            <div class="p-6">
+                <div class="text-2xl font-bold text-white flex items-center gap-2 mb-8 hidden lg:flex">
+                    <svg class="w-8 h-8 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    C++ Revise
+                </div>
+                <nav class="space-y-1 text-sm font-medium" id="nav-menu">
+                    <a href="#skeleton" class="nav-link block px-3 py-2 text-slate-400 border-l-2 border-transparent hover:text-white hover:border-slate-400 transition-colors">1. Basic Skeleton & I/O</a>
+                    <a href="#datatypes" class="nav-link block px-3 py-2 text-slate-400 border-l-2 border-transparent hover:text-white hover:border-slate-400 transition-colors">2. Data Types</a>
+                    <a href="#conditionals" class="nav-link block px-3 py-2 text-slate-400 border-l-2 border-transparent hover:text-white hover:border-slate-400 transition-colors">3. Conditional Logic</a>
+                    <a href="#arrays" class="nav-link block px-3 py-2 text-slate-400 border-l-2 border-transparent hover:text-white hover:border-slate-400 transition-colors">4. Arrays & Strings</a>
+                    <a href="#loops" class="nav-link block px-3 py-2 text-slate-400 border-l-2 border-transparent hover:text-white hover:border-slate-400 transition-colors">5. Loops</a>
+                    <a href="#functions" class="nav-link block px-3 py-2 text-slate-400 border-l-2 border-transparent hover:text-white hover:border-slate-400 transition-colors">6. Functions</a>
+                    <a href="#passby" class="nav-link block px-3 py-2 text-slate-400 border-l-2 border-transparent hover:text-white hover:border-slate-400 transition-colors">7. Pass by Value / Ref</a>
+                </nav>
+                <div class="mt-8 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+                    <p class="text-xs text-slate-400">Notes based on Striver's A2Z DSA Course - L1.</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 min-w-0 p-6 lg:p-10 lg:pl-16">
+            <div class="max-w-3xl">
+                
+                <div class="mb-12">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4">C++ Basics in One Shot</h1>
+                    <p class="text-lg text-slate-400">A comprehensive revision sheet designed for competitive programming and interview preparation. Master the fundamentals quickly.</p>
+                </div>
+
+                <section id="skeleton" class="mb-16 pt-4 scroll-mt-20">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="bg-brand-500/20 text-brand-400 p-2 rounded-lg"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M4 12a8 8 0 1116 0 8 8 0 01-16 0z"></path></svg></div>
+                        <h2 class="text-2xl font-bold text-white">1. Basic Skeleton & Input/Output</h2>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-lg">
+                        <p class="mb-4 text-slate-300 leading-relaxed">Every C++ program shares a common foundational structure to handle inputs and outputs. You must include a library to enable specific functionalities.</p>
+                        <ul class="list-disc pl-5 space-y-2 mb-6 text-slate-300 marker:text-brand-500">
+                            <li><code class="text-brand-400 bg-brand-400/10 px-1 py-0.5 rounded font-mono text-sm">#include &lt;iostream&gt;</code>: Standard library for basic I/O.</li>
+                            <li><code class="text-brand-400 bg-brand-400/10 px-1 py-0.5 rounded font-mono text-sm">#include &lt;bits/stdc++.h&gt;</code>: The "master" header. Includes all standard libraries at once. Great for competitive programming.</li>
+                            <li><code class="text-brand-400 bg-brand-400/10 px-1 py-0.5 rounded font-mono text-sm">using namespace std;</code>: Prevents typing <code>std::</code> repeatedly before basic commands.</li>
+                        </ul>
+                        
+                        <div class="relative group">
+                            <button class="copy-btn absolute right-2 top-2 bg-slate-700/50 hover:bg-slate-600 text-slate-300 rounded p-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-xs" data-code="skeleton-code">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Copy
+                            </button>
+<pre><code class="language-cpp" id="skeleton-code">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    int x;
+    // Input
+    cin >> x; 
+    
+    // Output with line break (faster than endl)
+    cout << "Value is: " << x << "\n"; 
+    
+    return 0;
+}</code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="datatypes" class="mb-16 pt-4 scroll-mt-20">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="bg-brand-500/20 text-brand-400 p-2 rounded-lg"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg></div>
+                        <h2 class="text-2xl font-bold text-white">2. Data Types</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-slate-700 transition-colors">
+                            <h3 class="text-lg font-semibold text-white mb-2">Integers</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li><code class="text-blue-400 font-mono">int</code>: ~ -10^9 to 10^9</li>
+                                <li><code class="text-blue-400 font-mono">long</code>: Wider range</li>
+                                <li><code class="text-blue-400 font-mono">long long</code>: ~ -10^18 to 10^18 (Crucial for large inputs)</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-slate-700 transition-colors">
+                            <h3 class="text-lg font-semibold text-white mb-2">Decimals</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li><code class="text-emerald-400 font-mono">float</code>: Standard decimal</li>
+                                <li><code class="text-emerald-400 font-mono">double</code>: Wider range & higher precision</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 md:col-span-2 hover:border-slate-700 transition-colors">
+                            <h3 class="text-lg font-semibold text-white mb-2">Strings & Characters</h3>
+                            <ul class="space-y-2 text-sm mb-4">
+                                <li><code class="text-amber-400 font-mono">char</code>: Single char in single quotes <code>'h'</code></li>
+                                <li><code class="text-amber-400 font-mono">string</code>: Text in double quotes <code>"hello"</code></li>
+                            </ul>
+                            <div class="bg-amber-900/20 border border-amber-900/50 rounded p-3 flex gap-3 text-sm">
+                                <svg class="w-5 h-5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                <div>
+                                    <strong class="text-amber-500 block">Crucial String Input Note:</strong>
+                                    <code>cin >> s;</code> only reads until the first space. To read an entire line including spaces, use <code class="text-white">getline(cin, s);</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="conditionals" class="mb-16 pt-4 scroll-mt-20">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="bg-brand-500/20 text-brand-400 p-2 rounded-lg"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg></div>
+                        <h2 class="text-2xl font-bold text-white">3. Conditional Logic</h2>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-lg">
+                            <h3 class="text-lg font-semibold text-white mb-3">If / Else If / Else</h3>
+                            <p class="text-sm text-slate-400 mb-4">Using <code>else if</code> prevents the program from checking subsequent conditions once a match is found, saving execution time compared to multiple standalone <code>if</code> blocks.</p>
+                            
+                            <div class="relative group">
+                                <button class="copy-btn absolute right-2 top-2 bg-slate-700/50 hover:bg-slate-600 text-slate-300 rounded p-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-xs" data-code="if-code">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Copy
+                                </button>
+<pre><code class="language-cpp" id="if-code">int age = 20;
+
+if (age < 18) {
+    cout << "Not an adult";
+} else if (age >= 18 && age <= 60) {
+    // Executes if the first condition is false AND this is true
+    cout << "Adult";
+} else {
+    // Optional fallback
+    cout << "Senior";
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-lg">
+                            <h3 class="text-lg font-semibold text-white mb-3">Switch Statement</h3>
+                            <p class="text-sm text-slate-400 mb-4">Evaluates a variable against matching <code>case</code> blocks. You <strong>must</strong> include a <code>break;</code> statement, or "fall-through" will occur (executing all below cases).</p>
+                            
+                            <div class="relative group">
+                                <button class="copy-btn absolute right-2 top-2 bg-slate-700/50 hover:bg-slate-600 text-slate-300 rounded p-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-xs" data-code="switch-code">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Copy
+                                </button>
+<pre><code class="language-cpp" id="switch-code">int day = 2;
+switch(day) {
+    case 1:
+        cout << "Monday";
+        break; // Crucial!
+    case 2:
+        cout << "Tuesday";
+        break;
+    default: // Catches unmatched inputs
+        cout << "Invalid Day";
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="arrays" class="mb-16 pt-4 scroll-mt-20">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="bg-brand-500/20 text-brand-400 p-2 rounded-lg"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg></div>
+                        <h2 class="text-2xl font-bold text-white">4. Arrays & Strings</h2>
+                    </div>
+                    
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg mb-6">
+                        <div class="border-b border-slate-800 bg-slate-800/50 px-6 py-4">
+                            <h3 class="font-semibold text-white">1D and 2D Arrays</h3>
+                        </div>
+                        <div class="p-6">
+                            <p class="text-sm text-slate-400 mb-4">Arrays hold collections of the <em>exact same data type</em>. They use <strong>0-based indexing</strong>. Memory is allocated contiguously for elements.</p>
+                            <div class="relative group">
+                                <button class="copy-btn absolute right-2 top-2 bg-slate-700/50 hover:bg-slate-600 text-slate-300 rounded p-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-xs" data-code="arr-code">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Copy
+                                </button>
+<pre><code class="language-cpp" id="arr-code">// 1D Array of size 5
+int arr[5]; 
+cin >> arr[0]; // Access first element
+arr[3] += 10;  // Modify 4th element
+
+// 2D Array: 3 rows, 5 columns
+int matrix[3][5]; 
+matrix[1][2] = 78; // 2nd row, 3rd column</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-lg">
+                        <h3 class="text-lg font-semibold text-white mb-3">Strings as Arrays</h3>
+                        <p class="text-sm text-slate-400 mb-4">Strings act as arrays of characters. You can access individual characters by index.</p>
+                        <ul class="list-disc pl-5 space-y-1 text-sm text-slate-300">
+                            <li>Access letter: <code>s[0]</code></li>
+                            <li>Find length: <code>s.size()</code> or <code>s.length()</code></li>
+                            <li>Last index: <code>s.size() - 1</code></li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="loops" class="mb-16 pt-4 scroll-mt-20">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="bg-brand-500/20 text-brand-400 p-2 rounded-lg"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg></div>
+                        <h2 class="text-2xl font-bold text-white">5. Loops</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-6">
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+                            <h3 class="text-lg font-semibold text-white mb-2">For Loop</h3>
+                            <p class="text-sm text-slate-400 mb-4">Best used when you know exactly how many times to iterate.</p>
+                            <div class="relative group">
+                                <button class="copy-btn absolute right-2 top-2 bg-slate-700/50 hover:bg-slate-600 text-slate-300 rounded p-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-xs" data-code="for-code">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Copy
+                                </button>
+<pre><code class="language-cpp" id="for-code">// for(initialization; condition; increment/decrement)
+for(int i = 1; i <= 10; i++) {
+    cout << "Striver " << i << "\n";
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+                                <h3 class="text-lg font-semibold text-white mb-2">While Loop</h3>
+                                <p class="text-sm text-slate-400 mb-4">Runs continuously as long as condition is true. Checked <em>before</em> executing.</p>
+                                <div class="relative group">
+<pre><code class="language-cpp">int i = 1;
+while(i <= 5) {
+    cout << i;
+    i++;
+}</code></pre>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+                                <h3 class="text-lg font-semibold text-white mb-2">Do-While Loop</h3>
+                                <p class="text-sm text-slate-400 mb-4">Executes code block <em>first</em>, then checks condition. Guaranteed to run at least once.</p>
+                                <div class="relative group">
+<pre><code class="language-cpp">int i = 2;
+do {
+    cout << "Executes once!";
+    i++;
+} while(i <= 1);</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="functions" class="mb-16 pt-4 scroll-mt-20">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="bg-brand-500/20 text-brand-400 p-2 rounded-lg"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg></div>
+                        <h2 class="text-2xl font-bold text-white">6. Functions</h2>
+                    </div>
+                    
+                    <p class="text-slate-300 mb-6">Functions make code modular, readable, and reusable. They handle specific tasks so you don't repeat code.</p>
+
+                    <div class="space-y-6">
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+                            <h3 class="font-semibold text-white mb-2">Void Functions</h3>
+                            <p class="text-sm text-slate-400 mb-3">Performs an action but does not return a value.</p>
+                            <div class="relative group">
+                                <button class="copy-btn absolute right-2 top-2 bg-slate-700/50 hover:bg-slate-600 text-slate-300 rounded p-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-xs" data-code="void-code">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Copy
+                                </button>
+<pre><code class="language-cpp" id="void-code">void printName(string name) {
+    cout << "Hey " << name << "\n";
+}
+
+int main() {
+    printName("Raj"); // Function Call
+    return 0;
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+                            <h3 class="font-semibold text-white mb-2">Return Functions</h3>
+                            <p class="text-sm text-slate-400 mb-3">Processes input and yields a specific data type back. <strong>Must</strong> hit a return statement.</p>
+                            <div class="relative group">
+                                <button class="copy-btn absolute right-2 top-2 bg-slate-700/50 hover:bg-slate-600 text-slate-300 rounded p-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-xs" data-code="ret-code">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Copy
+                                </button>
+<pre><code class="language-cpp" id="ret-code">int sum(int num1, int num2) {
+    int res = num1 + num2;
+    return res;
+}
+
+int main() {
+    int answer = sum(5, 6);
+    cout << answer; // Prints 11
+    return 0;
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="passby" class="mb-16 pt-4 scroll-mt-20">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="bg-brand-500/20 text-brand-400 p-2 rounded-lg"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
+                        <h2 class="text-2xl font-bold text-white">7. Pass by Value vs. Pass by Reference</h2>
+                    </div>
+
+                    <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-6 mb-6">
+                        <h3 class="text-xl font-bold text-red-400 mb-2">Crucial for Debugging</h3>
+                        <p class="text-slate-300">Understanding how parameters are passed to functions is one of the most common sources of errors in algorithms.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-lg">
+                            <h3 class="text-lg font-semibold text-white mb-2">Pass by Value (Default)</h3>
+                            <p class="text-sm text-slate-400 mb-4">Sends a <strong>copy</strong> of the variable. Changes inside the function do not affect the original variable in <code>main()</code>.</p>
+                            <div class="relative group">
+                                <button class="copy-btn absolute right-2 top-2 bg-slate-700/50 hover:bg-slate-600 text-slate-300 rounded p-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-xs" data-code="val-code">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Copy
+                                </button>
+<pre><code class="language-cpp" id="val-code">void doSomething(int num) {
+    num += 5; // Modifies the COPY
+}
+
+int main() {
+    int x = 10;
+    doSomething(x);
+    cout << x; // STILL PRINTS 10!
+    return 0;
+}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-lg relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-brand-500/10 rounded-bl-full -z-0"></div>
+                            <h3 class="text-lg font-semibold text-brand-400 mb-2 relative z-10">Pass by Reference (&)</h3>
+                            <p class="text-sm text-slate-400 mb-4 relative z-10">Sends the <strong>exact memory address</strong>. Changes inside the function directly alter the original variable.</p>
+                            <div class="relative group z-10">
+                                <button class="copy-btn absolute right-2 top-2 bg-slate-700/50 hover:bg-slate-600 text-slate-300 rounded p-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-xs" data-code="ref-code">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg> Copy
+                                </button>
+<pre><code class="language-cpp" id="ref-code">void doSomething(int &num) { // Added &
+    num += 5; // Modifies ORIGINAL
+}
+
+int main() {
+    int x = 10;
+    doSomething(x);
+    cout << x; // NOW PRINTS 15!
+    return 0;
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 bg-brand-900/30 border border-brand-500/30 rounded-xl p-5 flex gap-4 items-start">
+                        <svg class="w-6 h-6 text-brand-400 shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div>
+                            <strong class="text-brand-300 block mb-1">The Array Exception:</strong>
+                            <p class="text-sm text-slate-300">Standard arrays are <strong>always</strong> passed by reference automatically. You do not need the <code>&</code> symbol; any modifications inside the function affect the original array.</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <footer class="border-t border-slate-800 pt-8 pb-12 mt-20 text-center text-sm text-slate-500">
+                    Designed for swift revision. Stay consistent and keep coding.
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-emerald-600 text-white px-4 py-2 rounded-lg shadow-lg font-medium text-sm flex items-center gap-2 hidden z-50">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        Copied to clipboard!
+    </div>
+
+    <!-- Prism.js Script for Syntax Highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Mobile Menu Toggle
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const sidebar = document.getElementById('sidebar');
+            let menuOpen = false;
+
+            mobileBtn.addEventListener('click', () => {
+                menuOpen = !menuOpen;
+                if(menuOpen) {
+                    sidebar.classList.remove('-translate-x-full');
+                    sidebar.classList.add('shadow-2xl');
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    sidebar.classList.remove('shadow-2xl');
+                }
+            });
+
+            // Close sidebar when clicking a link on mobile
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 1024) { // lg breakpoint
+                        sidebar.classList.add('-translate-x-full');
+                        menuOpen = false;
+                    }
+                });
+            });
+
+            // 2. Copy Code Functionality (Using document.execCommand for iframe safety)
+            const copyBtns = document.querySelectorAll('.copy-btn');
+            const toast = document.getElementById('toast');
+            let toastTimeout;
+
+            copyBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const codeId = btn.getAttribute('data-code');
+                    const codeBlock = document.getElementById(codeId);
+                    
+                    if(codeBlock) {
+                        // Create a temporary textarea to hold the text
+                        const textarea = document.createElement('textarea');
+                        textarea.value = codeBlock.textContent;
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        
+                        try {
+                            document.execCommand('copy');
+                            showToast();
+                        } catch (err) {
+                            console.error('Failed to copy', err);
+                        }
+                        
+                        document.body.removeChild(textarea);
+                    }
+                });
+            });
+
+            function showToast() {
+                toast.classList.remove('hidden');
+                toast.classList.add('toast-animate');
+                
+                clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toast.classList.add('hidden');
+                    toast.classList.remove('toast-animate');
+                }, 3000);
+            }
+
+            // 3. ScrollSpy Functionality
+            const sections = document.querySelectorAll('section');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                // Add an offset so it highlights slightly before reaching the absolute top
+                const scrollPosition = window.scrollY + 150; 
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
