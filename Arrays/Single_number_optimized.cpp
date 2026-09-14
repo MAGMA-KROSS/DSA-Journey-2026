@@ -4,10 +4,10 @@ using namespace std;
 int main()
 {
     vector<int> vec = {4, 1, 2, 1, 2};
-    vector<int> unique_check(vec.size(),1);
     vector<int> unique;
     for (int i = 0; i < vec.size(); i++)
     {
+        bool IsUnique = true;
         for (int j = 0; j < vec.size(); j++)
         {
             if (i == j)
@@ -16,25 +16,19 @@ int main()
             }
             else
             {
-                if (vec[i]==vec[j])
+                if (vec[i] == vec[j])
                 {
-                    unique_check[i]=0;
-                    break;
-                }   
+                    IsUnique = false;
+                }
             }
         }
-    }
-    for (int i = 0; i < vec.size(); i++)
-    {
-        if (unique_check[i])
+        if (IsUnique)
         {
             unique.push_back(vec[i]);
         }
-        
     }
     for(int val:unique){
         cout<<val<<' ';
     }
-    
     return 0;
 }
